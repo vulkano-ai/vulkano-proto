@@ -37,7 +37,7 @@ publish-npm:
   variables:
     NPM_TOKEN: ${GL_TOKEN}
     VERSION: ${CI_COMMIT_TAG}
-    NPM_REGISTRY: "@${CI_PROJECT_ROOT_NAMESPACE}:registry"
+    NPM_REGISTRY: "@inference:registry"
   before_script:
     - apt-get update
     - apt-get install -y protobuf-compiler make gettext-base
@@ -45,7 +45,8 @@ publish-npm:
     - make init-node
     - make node
     - envsubst < package.json | tee package.json
-    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}">.npmrc
+    - npm config set ${NPM_REGISTRY} https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/
+    - npm config set -- '//gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken' "${GL_TOKEN}"
     - npm publish
 
   artifacts:
