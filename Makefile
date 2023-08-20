@@ -41,6 +41,8 @@ define gen_nest
 	./scripts/gen_exports.sh src/nest/"$(1)"
 	echo -e "export * from './$(1)';" >> src/nest/$(1)/index.ts
 	echo -e "export * from './$(1)';" >> src/nest/index.ts
+	cat src/nest/$(1)/index.ts
+	cat src/nest/index.ts
 endef
 
 
@@ -50,6 +52,8 @@ define gen_ts
 	$(call protoc_ts,$(1))
 	echo -e "export * from './$(1)';" >> src/ts/$(1)/index.ts
 	echo -e "export * from './$(1)';" >> src/ts/index.ts
+	cat src/ts/$(1)/index.ts
+	cat src/ts/index.ts
 endef
 
 
