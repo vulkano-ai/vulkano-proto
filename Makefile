@@ -39,6 +39,7 @@ define gen_nest
 	mkdir -p src/nest/$(1)
 	$(call protoc_nest,$(1))
 	./scripts/gen_exports.sh src/nest/"$(1)"
+	echo -e "export * from './$(1)';" >> src/nest/$(1)/index.ts
 	echo -e "export * from './$(1)';" >> src/nest/index.ts
 endef
 
@@ -47,7 +48,7 @@ define gen_ts
 	rm -rf src/ts/$(1)
 	mkdir -p src/ts/$(1)
 	$(call protoc_ts,$(1))
-	./scripts/gen_exports.sh src/ts/"$(1)"
+	echo -e "export * from './$(1)';" >> src/ts/$(1)/index.ts
 	echo -e "export * from './$(1)';" >> src/ts/index.ts
 endef
 
