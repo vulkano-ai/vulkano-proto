@@ -1,6 +1,6 @@
 {
   "name": "@inference/inference-proto",
-  "version": "${VERSION}",
+  "version": "v1.0.0-dev.1",
   "description": "Inference main proto repo",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
