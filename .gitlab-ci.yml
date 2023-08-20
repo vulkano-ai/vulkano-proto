@@ -22,15 +22,21 @@ default:
     paths:
       - .npm/
 
-build-ts:
+publish-npm:
   image: node:18
   stage: build
+  variables:
+    NPM_TOKEN: ${CI_JOB_TOKEN}
   before_script:
     - apt-get update
-    - apt-get install -y protobuf-compiler make
+    - apt-get install -y protobuf-compiler make gettext-base
   script:
     - make init-node
     - make node
+    - envsubst < package.json | tee package.json
+    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}">.npmrc
+    - npm publish
+
   artifacts:
     paths:
       - src/*
@@ -38,24 +44,17 @@ build-ts:
   rules:
     - if: $CI_COMMIT_BRANCH
 
-publish-npm:
+release:
   stage: release
-  dependencies:
-    - build-ts
-  variables:
-    NPM_REGISTRY: "@inference:registry"
-    NPM_TOKEN: "${CI_JOB_TOKEN}"
   script:
-    - npm config set ${NPM_REGISTRY} https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/
-    - npm config set -- '//gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken' "${GL_TOKEN}"
-    - rm -rf .npm/_cacache .npm/_logs
+    - npm i
     - npm run semantic-release
   only:
     - main
     - dev
 
 
-build-python:
+publish-python:
     image: python:3.9
     stage: build
     before_script:

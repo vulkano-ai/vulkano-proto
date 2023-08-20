@@ -1,6 +1,6 @@
 {
   "name": "@inference/inference-proto",
-  "version": "0.10.3",
+  "version": "${VERSION}",
   "description": "Inference main proto repo",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -29,9 +29,7 @@
   "author": "Inference",
   "license": "ISC",
   "devDependencies": {
-    "@semantic-release/git": "^10.0.1",
     "@semantic-release/gitlab": "^8.0.1",
-    "@semantic-release/npm": "^9.0.1",
     "semantic-release": "^19.0.2"
   },
   "dependencies": {
