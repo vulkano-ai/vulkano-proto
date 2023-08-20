@@ -38,7 +38,7 @@ define gen_nest
 	rm -rf src/nest/$(1)
 	mkdir -p src/nest/$(1)
 	$(call protoc_nest,$(1))
-	sh ./scripts/gen_exports.sh src/nest/"$(1)"
+	./scripts/gen_exports.sh src/nest/"$(1)"
 	echo -e "export * from './$(1)';" >> src/nest/index.ts
 endef
 
@@ -47,7 +47,7 @@ define gen_ts
 	rm -rf src/ts/$(1)
 	mkdir -p src/ts/$(1)
 	$(call protoc_ts,$(1))
-	sh ./scripts/gen_exports.sh src/ts/"$(1)"
+	./scripts/gen_exports.sh src/ts/"$(1)"
 	echo -e "export * from './$(1)';" >> src/ts/index.ts
 endef
 
@@ -67,10 +67,11 @@ clean-python:
 clean-node:
 	rm -rf src/ts
 	rm -rf src/nest
+	rm -rf lib/
 
-clean: 
+clean: clean-python clean-node
 	rm -rf src/
-	
+
 python: clean-python 
 	@$(call gen_python,pipeline)
 	@$(call gen_python,providers)
