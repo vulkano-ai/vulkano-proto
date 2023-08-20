@@ -1,0 +1,40 @@
+syntax = "proto3";
+package VideoFilters;
+
+enum VideoFilterName {
+  SUPER_RESOLUTION = 0;
+  VIDEO_DENOISE = 1;
+  ARTIFACT_REDUCTION = 2;
+}
+
+message VideoSuperResolutionFilterConfig {
+  string factor = 1;
+  float strength = 2;
+}
+message VideoDenoiseFilterConfig {
+  float strength = 1;
+}
+message VideoArtifactReductionFilterConfig {
+  float strength = 1;
+}
+message VideoSuperResolutionFilter {
+  VideoFilterName name = 1;
+  VideoSuperResolutionFilterConfig config = 2;
+}
+message VideoDenoiseFilter {
+  VideoFilterName name = 1;
+  VideoDenoiseFilterConfig config = 2;
+}
+message VideoArtifactReductionFilter {
+  VideoFilterName name = 1;
+  VideoArtifactReductionFilterConfig config = 2;
+}
+
+message VideoFilter {
+  oneof filter {
+    VideoSuperResolutionFilter superResolution = 1;
+    VideoDenoiseFilter denoise = 2;
+    VideoArtifactReductionFilter artifactReduction = 3;
+  }
+
+}

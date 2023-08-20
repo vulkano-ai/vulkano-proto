@@ -1,0 +1,23 @@
+syntax = "proto3";
+package AudioFilters;
+
+
+enum AudioFilterName {
+  AUDIO_DENOISE = 0;
+  ROOM_ECO = 1;
+}
+
+message AudioDenoiseFilterConfig {
+  float strength = 2;
+}
+
+message AudioDenoiseFilter {
+  AudioFilterName name = 1;
+  AudioDenoiseFilterConfig config = 2;
+}
+
+message AudioFilter {
+  oneof filter {
+    AudioDenoiseFilter denoise = 1;
+  }
+}

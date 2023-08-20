@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package Pipeline;
+
+import "pipeline/audiofilters.proto";
+import "pipeline/videofilters.proto";
+import "providers/providers.proto";
+
+enum InputProtocol {
+  INPUT_RTMP = 0;
+}
+enum OutputProtocol {
+  OUTPUT_RTMP = 0;
+  OUTPUT_HLS = 1;
+}
+enum InputProvider {
+  INPUT_INTERNAL = 0;
+  INPUT_EXTERNAL = 1;
+}
+enum OutputProvider {
+  OUTPUT_INTERNAL = 0;
+  OUTPUT_EXTERNAL = 1;
+}
+
+message PipelineInput {
+  InputProtocol protocol = 1;
+  InputProvider providerType = 2;
+
+  oneof config {
+    Providers.RtmpProviderConfig rtmpConfig = 100;
+  }
+}
+
+message PipelineOutput {
+  OutputProtocol protocol = 1;
+  OutputProvider providerType = 2;
+
+  oneof config {
+    Providers.HlsProviderConfig hlsConfig = 100;
+    Providers.RtmpProviderConfig rtmpConfig = 101;
+
+  }
+}
+message Pipeline {
+  repeated PipelineInput input = 1;
+  repeated PipelineOutput output = 2;
+  repeated VideoFilters.VideoFilter videoFilters = 7;
+  repeated AudioFilters.AudioFilter audioFilters = 8;
+}
+
+message StartPipelineRequest {
+  string user = 1;
+  Pipeline pipeline = 2;
+}
