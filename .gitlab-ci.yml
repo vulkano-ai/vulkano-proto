@@ -9,6 +9,7 @@ variables:
 
 release:
   stage: release
+  image: node:latest
   script:
     - npm i
     - npm run semantic-release
