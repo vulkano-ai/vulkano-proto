@@ -7,20 +7,6 @@ variables:
   PROTOC_ZIP: protoc-${PROTOC_VERSION}-linux-x86_32.zip
 
 
-default:
-  image: node:latest
-  before_script:
-    - npm ci --cache .npm --prefer-offline
-    - |
-      {
-        echo "@${CI_PROJECT_ROOT_NAMESPACE}:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/"
-        echo "${CI_API_V4_URL#https?}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=\${CI_JOB_TOKEN}"
-      } | tee -a .npmrc
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - .npm/
-
 release:
   stage: release
   script:
@@ -45,8 +31,6 @@ publish-npm:
     - make init-node
     - make node
     - envsubst < package.json | tee package.json
-    - npm config set ${NPM_REGISTRY} https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/
-    - npm config set -- '//gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken' "${GL_TOKEN}"
     - npm publish
 
   artifacts:
