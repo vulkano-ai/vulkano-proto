@@ -21,6 +21,16 @@ default:
     paths:
       - .npm/
 
+release:
+  stage: release
+  script:
+    - npm i
+    - npm run semantic-release
+  only:
+    - main
+    - dev
+
+
 publish-npm:
   image: node:18
   stage: publish
@@ -40,17 +50,9 @@ publish-npm:
     paths:
       - src/*
       - lib/*
-  rules:
-    - if: $CI_COMMIT_BRANCH
-
-release:
-  stage: release
-  script:
-    - npm i
-    - npm run semantic-release
   only:
-    - main
-    - dev
+    - tags
+
 
 
 publish-python:
@@ -73,5 +75,5 @@ publish-python:
         paths:
         - src/*
         - lib/*
-    rules:
-        - if: $CI_COMMIT_TAG
+    only:
+        - tags
