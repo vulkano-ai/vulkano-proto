@@ -29,9 +29,9 @@ publish-npm:
     - apt-get update
     - apt-get install -y protobuf-compiler make gettext-base
   script:
+    - envsubst < package.json | tee package.json
     - make init-node
     - make node
-    - envsubst < package.json | tee package.json
     - npm publish
 
   artifacts:
