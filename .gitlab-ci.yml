@@ -1,7 +1,6 @@
 stages:
-  - build
   - release
-
+  - publish
 
 variables:
   PROTOC_VERSION: "3.14.0"
@@ -24,7 +23,7 @@ default:
 
 publish-npm:
   image: node:18
-  stage: build
+  stage: publish
   variables:
     NPM_TOKEN: ${CI_JOB_TOKEN}
   before_script:
@@ -56,7 +55,7 @@ release:
 
 publish-python:
     image: python:3.9
-    stage: build
+    stage: publish
     before_script:
         - apt-get update
         - apt-get install -y protobuf-compiler make gettext-base
