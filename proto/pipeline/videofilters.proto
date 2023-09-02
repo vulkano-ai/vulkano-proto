@@ -7,34 +7,34 @@ enum VideoFilterName {
   ARTIFACT_REDUCTION = 2;
 }
 
-message VideoSuperResolutionFilterConfig {
+message VideoSuperResConfig {
   string factor = 1;
   float strength = 2;
 }
-message VideoDenoiseFilterConfig {
+message VideoDenoiseConfig {
   float strength = 1;
 }
-message VideoArtifactReductionFilterConfig {
+message VideoArtifactReductionConfig {
   float strength = 1;
 }
-message VideoSuperResolutionFilter {
+message VideoSuperRes {
   VideoFilterName name = 1;
-  VideoSuperResolutionFilterConfig config = 2;
+  VideoSuperResConfig config = 2;
 }
-message VideoDenoiseFilter {
+message VideoDenoise {
   VideoFilterName name = 1;
-  VideoDenoiseFilterConfig config = 2;
+  VideoDenoiseConfig config = 2;
 }
-message VideoArtifactReductionFilter {
+message VideoArtifactReduction {
   VideoFilterName name = 1;
-  VideoArtifactReductionFilterConfig config = 2;
+  VideoArtifactReductionConfig config = 2;
 }
 
 message VideoFilter {
   oneof filter {
-    VideoSuperResolutionFilter superResolution = 1;
-    VideoDenoiseFilter denoise = 2;
-    VideoArtifactReductionFilter artifactReduction = 3;
+    VideoSuperRes superRes = 1;
+    VideoDenoise denoise = 2;
+    VideoArtifactReduction artifactReduction = 3;
   }
 
 }

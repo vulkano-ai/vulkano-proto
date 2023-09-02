@@ -7,17 +7,17 @@ enum AudioFilterName {
   ROOM_ECO = 1;
 }
 
-message AudioDenoiseFilterConfig {
+message AudioDenoiseConfig {
   float strength = 2;
 }
 
-message AudioDenoiseFilter {
+message AudioDenoise {
   AudioFilterName name = 1;
-  AudioDenoiseFilterConfig config = 2;
+  AudioDenoiseConfig config = 2;
 }
 
 message AudioFilter {
   oneof filter {
-    AudioDenoiseFilter denoise = 1;
+    AudioDenoise denoise = 1;
   }
 }
