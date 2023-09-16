@@ -7,6 +7,8 @@ define gen_python
 	protoc -I=proto --python_out=src/py/$(PROJECT_NAME)/ proto/$(1)/*.proto
 	cp -r proto/$(1)/* src/py/$(PROJECT_NAME)/$(1)
 	touch src/py/$(PROJECT_NAME)/$(1)/__init__.py
+	touch src/py/$(PROJECT_NAME)/__init__.py
+	echo "from .$(1) import *" >> src/py/$(PROJECT_NAME)/__init__.py
 endef
 
 define protoc_nest
