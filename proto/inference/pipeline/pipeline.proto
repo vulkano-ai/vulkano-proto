@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package Pipeline;
 
-import "pipeline/audiofilters.proto";
-import "pipeline/videofilters.proto";
-import "providers/providers.proto";
+import "inference/pipeline/audiofilters.proto";
+import "inference/pipeline/videofilters.proto";
+import "inference/providers/providers.proto";
 
 enum InputProtocol {
   INPUT_RTMP = 0;

@@ -4,8 +4,8 @@ PROJECT_NAME := "inference"
 define gen_python
 	rm -rf src/py/$(PROJECT_NAME)/$(1)
 	mkdir -p src/py/$(PROJECT_NAME)/$(1)
-	protoc -I=proto --python_out=src/py/$(PROJECT_NAME)/ proto/$(1)/*.proto
-	cp -r proto/$(1)/* src/py/$(PROJECT_NAME)/$(1)
+	protoc -I=proto --python_out=src/py proto/$(PROJECT_NAME)/$(1)/*.proto
+	cp -r proto/$(PROJECT_NAME)/$(1)/* src/py/$(PROJECT_NAME)/$(1)
 	touch src/py/$(PROJECT_NAME)/$(1)/__init__.py
 	touch src/py/$(PROJECT_NAME)/__init__.py
 	echo "from .$(1) import *" >> src/py/$(PROJECT_NAME)/__init__.py
@@ -21,7 +21,7 @@ define protoc_nest
         --ts_proto_opt=esModuleInterop=true \
         --ts_proto_opt=exportCommonSymbols=false \
         --ts_proto_opt=useDate=true \
-        proto/"$(1)"/"$(1)".proto
+        proto/$(PROJECT_NAME)/"$(1)"/"$(1)".proto
 endef
 
 define protoc_ts
@@ -32,25 +32,25 @@ define protoc_ts
         --ts_proto_opt=stringEnums=true \
         --ts_proto_opt=esModuleInterop=true \
         --ts_proto_opt=exportCommonSymbols=false \
-        proto/"$(1)"/"$(1)".proto
+        proto/$(PROJECT_NAME)/"$(1)"/"$(1)".proto
 endef
 
 
 define gen_nest
-	rm -rf src/nest/$(1)
-	mkdir -p src/nest/$(1)
+	rm -rf src/nest/inference/$(1)
+	mkdir -p src/nest/inference/$(1)
 	$(call protoc_nest,$(1))
-	./scripts/gen_exports.sh src/nest/"$(1)"
-	cat src/nest/$(1)/index.ts
+	./scripts/gen_exports.sh src/nest/inference/"$(1)"
+	cat src/nest/inference/$(1)/index.ts
 endef
 
 
 define gen_ts
-	rm -rf src/ts/$(1)
-	mkdir -p src/ts/$(1)
+	rm -rf src/ts/inference/$(1)
+	mkdir -p src/ts/inference/$(1)
 	$(call protoc_ts,$(1))
-	./scripts/gen_exports.sh src/ts/"$(1)"
-	cat src/ts/$(1)/index.ts
+	./scripts/gen_exports.sh src/ts/inference/"$(1)"
+	cat src/ts/inference/$(1)/index.ts
 endef
 
 
@@ -89,6 +89,9 @@ node-nest:
 	@$(call gen_nest,providers)
 
 node: clean-node node-ts node-nest
+	./scripts/gen_exports.sh src/nest/inference
 	./scripts/gen_exports.sh src/nest
 	./scripts/gen_exports.sh src/ts
+	./scripts/gen_exports.sh src/ts/inference
+
 	npm run build
