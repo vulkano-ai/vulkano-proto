@@ -42,8 +42,8 @@ message PipelineOutput {
   }
 }
 message Pipeline {
-  repeated PipelineInput input = 1;
-  repeated PipelineOutput output = 2;
+  repeated PipelineInput inputs = 1;
+  repeated PipelineOutput outputs = 2;
   repeated VideoFilters.VideoFilter videoFilters = 7;
   repeated AudioFilters.AudioFilter audioFilters = 8;
 }
